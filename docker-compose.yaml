@@ -50,7 +50,7 @@ services:
     environment:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_BASIC_ENABLED=false
+      - GF_AUTH_BASIC_ENABLED=true
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
     networks:
