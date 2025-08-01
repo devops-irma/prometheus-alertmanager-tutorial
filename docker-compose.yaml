@@ -7,6 +7,9 @@ services:
       context: .
     ports:
       - "8090:8090"
+    networks:
+      - monitor-net
+
   prometheus:
     image: prom/prometheus:v2.45.3
     restart: unless-stopped
@@ -17,6 +20,9 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    networks:
+      - monitor-net
+
   node-exporter:
     image: prom/node-exporter:v1.7.0
     restart: unless-stopped
@@ -31,6 +37,9 @@ services:
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     ports:
       - 9100:9100
+    networks:
+      - monitor-net
+
   alertmanager:
     image: prom/alertmanager:v0.27.0
     restart: unless-stopped
@@ -38,6 +47,9 @@ services:
       - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
     ports:
       - 9093:9093
+    networks:
+      - monitor-net
+
   grafana:
     image: grafana/grafana:10.4.0
     restart: unless-stopped
@@ -49,3 +61,8 @@ services:
       - GF_AUTH_BASIC_ENABLED=false
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - monitor-net
+
+networks:
+  monitor-net:
